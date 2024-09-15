@@ -27,10 +27,6 @@ RUN apk update && \
     mv /opt/app/default.conf /etc/nginx/http.d/ && \
     chmod +x /opt/app/start.sh
 
-# Use a non-root user (optional)
-RUN adduser -D -h /opt/app appuser
-USER appuser
-
 
 CMD ["/opt/app/start.sh"]
 
