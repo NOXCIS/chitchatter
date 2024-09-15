@@ -1,0 +1,10 @@
+
+
+
+services:
+  chitchatter:
+    build: .
+    #image: noxcis/darkwire:test
+
+    ports:
+      - 8080:443

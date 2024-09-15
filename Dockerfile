@@ -5,11 +5,9 @@ WORKDIR /opt/app
 
 COPY . /opt/app/
 
-RUN apk add --no-cache npm build-base git 
-
-RUN npm install
-
-RUN npm run build
+RUN apk add --no-cache npm build-base git gcc musl-dev rust cargo linux-headers \
+    && npm install \
+    && npm run build
 
 
 FROM alpine:latest
@@ -29,9 +27,6 @@ RUN apk update && \
     mv /opt/app/default.conf /etc/nginx/http.d/ && \
     chmod +x /opt/app/start.sh
 
-
-# Expose necessary port (if your app runs on a specific port)
-EXPOSE 443
 
 
 CMD ["/opt/app/start.sh"]

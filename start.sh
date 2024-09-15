@@ -49,17 +49,21 @@ EOF
 
     # Generate self-signed certificate with SAN extension and X.509 basic constraints
     openssl x509 -req -days "$days_valid" -in "$csr_file" -signkey "$key_file" \
-    -out "$cert_file" -extfile "$config_file" -extensions req_ext -extensions v3_ca
+    -out "$cert_file" -extfile "$config_file" -extensions req_ext -extensions v3_ca 
 
-    # Provide information about the generated files
-    echo "Self-signed SSL key: $key_file"
-    echo "Self-signed SSL certificate: $cert_file"
-    echo "Certificate signing request: $csr_file"
 }
 
-
+echo '
+Starting...
+░░      ░░░  ░░░░  ░░        ░░        ░░░      ░░░  ░░░░  ░░░      ░░░        ░
+▒  ▒▒▒▒  ▒▒  ▒▒▒▒  ▒▒▒▒▒  ▒▒▒▒▒▒▒▒  ▒▒▒▒▒  ▒▒▒▒  ▒▒  ▒▒▒▒  ▒▒  ▒▒▒▒  ▒▒▒▒▒  ▒▒▒▒
+▓  ▓▓▓▓▓▓▓▓        ▓▓▓▓▓  ▓▓▓▓▓▓▓▓  ▓▓▓▓▓  ▓▓▓▓▓▓▓▓        ▓▓  ▓▓▓▓  ▓▓▓▓▓  ▓▓▓▓
+█  ████  ██  ████  █████  ████████  █████  ████  ██  ████  ██        █████  ████
+██      ███  ████  ██        █████  ██████      ███  ████  ██  ████  █████  ████
+                                                                                
+'
 # Generate SSL and start nginx
-generate_self_signed_ssl && nginx
+generate_self_signed_ssl >> /dev/null 2>&1 && nginx
 
 # Keep the container running
 tail -f /dev/null
