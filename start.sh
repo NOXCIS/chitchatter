@@ -63,7 +63,11 @@ Starting...
 ██      ███  ████  ██        █████  ██████      ███  ████  ██  ████  █████  ████
                                                                                 
 '
+
+
 generate_self_signed_ssl >> /dev/null 2>&1 && nginx
+
+
 
 # Keep the container running
 tail -f /dev/null

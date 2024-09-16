@@ -1,5 +1,5 @@
 # Stage 1: Build the application
-FROM --platform=amd64  node:20.12.1-slim AS builder
+FROM --platform=amd64 node:20.12.1-slim AS builder
 LABEL maintainer="NOXCIS"
 
 WORKDIR /opt/app
@@ -7,11 +7,11 @@ WORKDIR /opt/app
 COPY . /opt/app/
 
 RUN apt-get update \
-    && apt-get install git  -y \
+    && apt-get install git -y \
     && npm install \
     && npm run build
 
-
+# Stage 2: Create the runtime environment
 FROM alpine:latest
 
 WORKDIR /opt/app
@@ -25,8 +25,6 @@ RUN apk add --no-cache \
     nginx \
     openssl \
     && chmod +x /opt/app/start.sh
-
-
 
 
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 CMD \
