@@ -51,7 +51,7 @@
     "webrtc-adapter": "^8.2.2"
   },
   "scripts": {
-    "start": "cross-env VITE_HOMEPAGE=$(npm pkg get homepage) vite --host --port 3000",
+    "start": "cross-env VITE_HOMEPAGE=$(npm pkg get homepage) vite --port 3000",
     "start:tracker": "bittorrent-tracker",
     "start:streamsaver": "serve -p 3015 node_modules/streamsaver",
     "dev": "mprocs \"npx cross-env VITE_TRACKER_URL=\"ws://localhost:8000\" VITE_STREAMSAVER_URL=\"http://localhost:3015/mitm.html\" npm run start\" \"npm run start:tracker\" \"npm run start:streamsaver\"",
