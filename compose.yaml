@@ -1,0 +1,7 @@
+services:
+  chitchatter:
+    build: .
+    #image: noxcis/chitchatter:prion
+
+    ports:
+      - 8080:443
