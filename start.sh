@@ -43,7 +43,35 @@ EOF
     openssl x509 -req -days "$days_valid" -in "$csr_file" -signkey "$key_file" \
         -out "$cert_file" -extfile "$config_file" -extensions req_ext -extensions v3_ca
 }
+# Function to allow only private IP ranges for incoming connections
+allow_private_ips_only() {
+    # Flush existing iptables rules
+    iptables -F
+    iptables -X
 
+    # Allow loopback traffic
+    iptables -A INPUT -i lo -j ACCEPT
+    iptables -A OUTPUT -o lo -j ACCEPT
+
+    # Allow established and related connections
+    iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+
+    # Allow traffic from private IP ranges
+    iptables -A INPUT -s 10.0.0.0/8 -j ACCEPT
+    iptables -A INPUT -s 172.16.0.0/12 -j ACCEPT
+    iptables -A INPUT -s 192.168.0.0/16 -j ACCEPT
+
+    # Drop all other traffic
+    iptables -A INPUT -j DROP
+
+    # Allow outgoing traffic to private IP ranges
+    iptables -A OUTPUT -d 10.0.0.0/8 -j ACCEPT
+    iptables -A OUTPUT -d 172.16.0.0/12 -j ACCEPT
+    iptables -A OUTPUT -d 192.168.0.0/16 -j ACCEPT
+
+    # Drop all other outgoing traffic
+    iptables -A OUTPUT -j DROP
+}
 # Graceful shutdown function for SIGTERM
 graceful_shutdown() {
     echo "SIGTERM received, shutting down Nginx..."
@@ -64,7 +92,7 @@ Starting...
                                                                                 
 '
 
-
+allow_private_ips_only
 generate_self_signed_ssl >> /dev/null 2>&1 && nginx
 
 

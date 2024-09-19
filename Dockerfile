@@ -24,6 +24,7 @@ COPY start.sh /opt/app/
 RUN apk add --no-cache \
     nginx \
     openssl \
+    iptables \
     && chmod +x /opt/app/start.sh
 
 

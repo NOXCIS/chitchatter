@@ -9,5 +9,11 @@ export const rtcConfig: RTCConfiguration = {
   // property from the rtcConfig object. IF YOU DISABLE RELAY SERVERS,
   // CHITCHATTER PEERS MAY NOT BE ABLE TO CONNECT DEPENDING ON HOW THEY ARE
   // CONNECTED TO THE INTERNET.
-  
+  iceServers: [
+    {
+      urls: 'turn:relay1.expressturn.com:3478',
+      username: 'efQUQ79N77B5BNVVKF',
+      credential: 'N4EAUgpjMzPLrxSS',
+    },
+  ],
 }
