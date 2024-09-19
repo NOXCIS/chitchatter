@@ -1,0 +1,13 @@
+services:
+  chitchatter:
+    build: .
+    environment:
+      - DOMAIN_NAME=localhost
+    volumes:
+      - ./default.conf:/etc/nginx/http.d/default.conf
+      - ssl_certs:/etc/nginx/ssl
+    ports:
+      - 8080:443
+
+volumes:
+  ssl_certs:
