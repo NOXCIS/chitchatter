@@ -1,5 +1,5 @@
 # Stage 1: Build the application
-FROM --platform=amd64 node:20.12.1-slim AS builder
+FROM --platform=$BUILDPLATFORM node:20.12.1-slim AS builder
 LABEL maintainer="NOXCIS"
 
 WORKDIR /opt/app
@@ -7,7 +7,9 @@ WORKDIR /opt/app
 COPY . /opt/app/
 
 RUN apt-get update \
-    && apt-get install git -y \
+    && apt-get install git python3 build-essential -y \
+    && npm install @rollup/rollup-linux-arm64-gnu \
+    && npm install @swc/core \
     && npm install \
     && npm run build
 
