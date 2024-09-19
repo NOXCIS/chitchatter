@@ -6,12 +6,19 @@ WORKDIR /opt/app
 
 COPY . /opt/app/
 
-RUN apt-get update \
-    && apt-get install git python3 build-essential -y \
-    && npm install @rollup/rollup-linux-arm64-gnu \
-    && npm install @swc/core \
-    && npm install \
-    && npm run build
+RUN apt-get update && \
+    apt-get install -y git python3 build-essential 
+# Use a shell script to conditionally install packages based on architecture
+RUN ARCH=$(uname -m) && \
+    if [ "$ARCH" != "x86_64" ]; then \
+        echo "Installing ARM-specific packages" && \
+        npm install @rollup/rollup-linux-arm64-gnu && \
+        npm install @swc/core; \
+    else \
+        echo "Skipping ARM-specific installs for amd64"; \
+    fi && \
+    npm install && \
+    npm run build
 
 # Stage 2: Create the runtime environment
 FROM alpine:latest
