@@ -54,7 +54,7 @@ allow_private_ips_only() {
     iptables -A OUTPUT -o lo -j ACCEPT
 
     # Allow established and related connections
-    iptables -A INPUT -m state --state NEW,ESTABLISHED,RELATED -j ACCEPT
+    iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
 
     # Allow traffic from private IP ranges
     iptables -A INPUT -s 10.0.0.0/8 -j ACCEPT
