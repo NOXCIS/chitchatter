@@ -1,0 +1,10 @@
+services:
+  chitchatter:
+    build: .
+    #image: noxcis/chitchatter:prion
+    cap_add:
+      - NET_ADMIN
+      - SYS_MODULE
+
+    ports:
+      - 8080:443
